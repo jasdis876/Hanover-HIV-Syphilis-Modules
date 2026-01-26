@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STI SmartLearn – Adult Education Portal</title>
+  <title>STI Myth Busters!</title>
 
   <style>
     /* CSS Reset & Base */
@@ -716,6 +716,121 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     }
 
+    /* MythBusters Screen */
+    .mythbusters-screen {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 35px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .myth-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f8ff 100%);
+      border-radius: var(--radius);
+      padding: 30px;
+      border: 2px solid #e0e6ef;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .myth-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .myth-category {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-hiv { background: #e3f2fd; color: var(--primary-blue); }
+    .category-syphilis { background: #f3e5f5; color: var(--primary-purple); }
+    .category-community { background: #e8f8f1; color: var(--primary-green); }
+
+    .myth-progress {
+      font-size: 1rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .myth-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .myth-section {
+      padding: 25px;
+      border-radius: var(--radius);
+      border-left: 5px solid transparent;
+    }
+
+    .myth-statement {
+      background: #fff5f5;
+      border-left-color: var(--primary-red);
+    }
+
+    .truth-statement {
+      background: #f0fff4;
+      border-left-color: var(--primary-green);
+    }
+
+    .myth-label, .truth-label {
+      font-weight: 800;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .myth-label { color: var(--primary-red); }
+    .truth-label { color: var(--primary-green); }
+
+    .myth-text, .truth-text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+    }
+
+    .myth-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .myth-footer-note {
+      text-align: center;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px dashed #e0e6ef;
+      line-height: 1.5;
+    }
+
     /* Footer */
     .footer {
       text-align: center;
@@ -762,12 +877,15 @@
       .track-buttons { grid-template-columns: 1fr; }
       .track-btn { height: 150px; font-size: 1.3rem; }
       .icon-large { font-size: 2.5rem; }
-      .module-content, .quiz-container, .certificate-container { padding: 25px; }
+      .module-content, .quiz-container, .certificate-container, .mythbusters-screen { padding: 25px; }
       .certificate-preview { padding: 25px; border-width: 10px; }
       .certificate-title { font-size: 2.5rem; }
       .certificate-name { font-size: 2rem; min-height: 80px; }
       .btn { padding: 15px 25px; font-size: 1.1rem; }
       .quiz-question { font-size: 1.3rem; }
+      .myth-card { padding: 20px; min-height: 350px; }
+      .myth-section { padding: 20px; }
+      .myth-text, .truth-text { font-size: 1.1rem; }
     }
 
     @media (max-width: 480px) {
@@ -775,6 +893,9 @@
       .header { padding: 20px 15px; }
       .certificate-title { font-size: 2rem; }
       .certificate-name { font-size: 1.5rem; }
+      .myth-header { flex-direction: column; align-items: flex-start; }
+      .myth-navigation { flex-direction: column; }
+      .myth-navigation .btn { width: 100%; }
     }
 
     /* Utility */
@@ -790,7 +911,7 @@
     <!-- Home Screen -->
     <div id="home-screen" class="screen">
       <div class="header">
-        <h1>🧬 STI SmartLearn</h1>
+        <h1>🧬 STI Myth Busters!</h1>
         <h2>Interactive learning on HIV and Syphilis for adults</h2>
       </div>
 
@@ -803,6 +924,10 @@
           <button class="btn btn-secondary track-btn" onclick="loadTrack('syphilis')">
             <span class="icon-large">🦠</span>
             Syphilis Learning Track
+          </button>
+          <button class="btn btn-primary track-btn" onclick="loadMythBusters()" style="background: linear-gradient(to right, var(--primary-purple), var(--primary-blue));">
+            <span class="icon-large">💥</span>
+            MythBusters
           </button>
         </div>
 
@@ -995,6 +1120,51 @@
       </div>
     </div>
 
+    <!-- MythBusters Screen -->
+    <div id="mythbusters-screen" class="screen hidden">
+      <div class="header">
+        <h1>💥 STI Myth Busters!</h1>
+        <button class="btn btn-back" onclick="loadHome()">← Back to Home</button>
+      </div>
+
+      <div class="content">
+        <div class="mythbusters-screen">
+          <div class="myth-header">
+            <div>
+              <div class="myth-category" id="myth-category">HIV</div>
+            </div>
+            <div class="myth-progress" id="myth-progress">Myth 1 of 16</div>
+          </div>
+
+          <div class="myth-card">
+            <div class="myth-content">
+              <div class="myth-section myth-statement">
+                <div class="myth-label">❌ MYTH</div>
+                <div class="myth-text" id="myth-text">Loading myth...</div>
+              </div>
+              
+              <div class="myth-section truth-statement">
+                <div class="truth-label">✅ TRUTH</div>
+                <div class="truth-text" id="truth-text">Loading truth...</div>
+              </div>
+            </div>
+
+            <div class="myth-navigation">
+              <button id="myth-back-btn" class="btn btn-back" onclick="previousMyth()" disabled>← Back</button>
+              <button id="myth-share-btn" class="btn btn-secondary" onclick="shareMyth()">
+                📋 Quick Share
+              </button>
+              <button id="myth-next-btn" class="btn btn-primary" onclick="nextMyth()">Next →</button>
+            </div>
+          </div>
+
+          <div class="myth-footer-note">
+            "No look nuh give diagnosis. No trust nuh give protection. Test, treat, protect."
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Confetti -->
     <div class="confetti-container" id="confetti-container"></div>
 
@@ -1019,7 +1189,8 @@
       userName: '',
       certificateUnlocked: false,
       certificateId: '',
-      completionDate: ''
+      completionDate: '',
+      currentMythIndex: 0
     };
 
     const learningContent = {
@@ -1948,6 +2119,95 @@
     };
 
     // ============================================================================
+    // MYTHBUSTERS DATA
+    // ============================================================================
+    const mythsData = [
+      // HIV Myths (7)
+      {
+        category: "HIV",
+        myth: "Mi can look pon yuh and know if yuh have HIV.",
+        truth: "HIV has no physical 'look.' Someone can look healthy and still be HIV positive."
+      },
+      {
+        category: "HIV",
+        myth: "A only battyman and sex worker get HIV.",
+        truth: "Anyone can get HIV — straight, gay, married, single, young, old, rich, poor."
+      },
+      {
+        category: "HIV",
+        myth: "HIV a foreign people disease.",
+        truth: "HIV is in every parish in Jamaica and affects everyday Jamaican families."
+      },
+      {
+        category: "HIV",
+        myth: "Condom nuh really protect yuh.",
+        truth: "Proper condom use greatly reduces HIV and STI transmission."
+      },
+      {
+        category: "HIV",
+        myth: "If mi trust mi partner, mi nuh need test.",
+        truth: "Trust doesn't replace testing. Many people don't know their status."
+      },
+      {
+        category: "HIV",
+        myth: "Bush tea, roots tonic, or fasting can cure HIV.",
+        truth: "There is no herbal cure for HIV. Only antiretroviral medication controls it."
+      },
+      {
+        category: "HIV",
+        myth: "HIV mean yuh ago dead soon.",
+        truth: "With treatment, people with HIV live long, healthy, normal lives."
+      },
+      // Syphilis Myths (6)
+      {
+        category: "Syphilis",
+        myth: "Syphilis a old-time disease weh done.",
+        truth: "Syphilis is still very active in Jamaica and increasing worldwide."
+      },
+      {
+        category: "Syphilis",
+        myth: "If di sore nuh hurt, is not serious.",
+        truth: "Syphilis sores are often painless — and very dangerous if untreated."
+      },
+      {
+        category: "Syphilis",
+        myth: "Syphilis go away by itself.",
+        truth: "It doesn't go away — it gets worse and damages the brain, heart, and organs."
+      },
+      {
+        category: "Syphilis",
+        myth: "Only people weh sleep round get syphilis.",
+        truth: "One sexual encounter with an infected person is enough."
+      },
+      {
+        category: "Syphilis",
+        myth: "Pregnant woman cyaan pass syphilis to baby.",
+        truth: "Syphilis can pass to unborn babies and cause miscarriage, stillbirth, or birth defects."
+      },
+      {
+        category: "Syphilis",
+        myth: "If di rash gone, yuh clean.",
+        truth: "Symptoms disappearing does NOT mean the infection is gone."
+      },
+      // Community Myths (3)
+      {
+        category: "Community",
+        myth: "Clinic staff ago tell people mi business.",
+        truth: "Clinics are legally required to keep information confidential."
+      },
+      {
+        category: "Community",
+        myth: "Testing mash up relationship.",
+        truth: "Testing protects relationships and families."
+      },
+      {
+        category: "Community",
+        myth: "Prayer alone can cure STI.",
+        truth: "Faith and medicine work together — treatment is still required."
+      }
+    ];
+
+    // ============================================================================
     // SCREEN NAV
     // ============================================================================
     function showScreen(screenId) {
@@ -2060,6 +2320,105 @@
           });
         });
       }
+    }
+
+    // ============================================================================
+    // MYTHBUSTERS FUNCTIONS
+    // ============================================================================
+    function loadMythBusters() {
+      appState.currentMythIndex = 0;
+      updateMythDisplay();
+      showScreen('mythbusters-screen');
+    }
+
+    function updateMythDisplay() {
+      const myth = mythsData[appState.currentMythIndex];
+      
+      // Update category badge
+      const categoryElement = document.getElementById('myth-category');
+      categoryElement.textContent = myth.category;
+      categoryElement.className = 'myth-category';
+      categoryElement.classList.add(`category-${myth.category.toLowerCase()}`);
+      
+      // Update progress indicator
+      document.getElementById('myth-progress').textContent = 
+        `Myth ${appState.currentMythIndex + 1} of ${mythsData.length}`;
+      
+      // Update myth and truth text
+      document.getElementById('myth-text').textContent = myth.myth;
+      document.getElementById('truth-text').textContent = myth.truth;
+      
+      // Update navigation buttons
+      const backBtn = document.getElementById('myth-back-btn');
+      const nextBtn = document.getElementById('myth-next-btn');
+      
+      backBtn.disabled = appState.currentMythIndex === 0;
+      nextBtn.disabled = appState.currentMythIndex === mythsData.length - 1;
+      
+      // Update button text for last myth
+      nextBtn.textContent = appState.currentMythIndex === mythsData.length - 1 ? 
+        'Back to Start →' : 'Next →';
+    }
+
+    function nextMyth() {
+      if (appState.currentMythIndex < mythsData.length - 1) {
+        appState.currentMythIndex++;
+      } else {
+        // Loop back to first myth
+        appState.currentMythIndex = 0;
+      }
+      updateMythDisplay();
+    }
+
+    function previousMyth() {
+      if (appState.currentMythIndex > 0) {
+        appState.currentMythIndex--;
+        updateMythDisplay();
+      }
+    }
+
+    function shareMyth() {
+      const myth = mythsData[appState.currentMythIndex];
+      const shareText = `MYTH: ${myth.myth}\n\nTRUTH: ${myth.truth}\n\nCategory: ${myth.category}\n\nFrom STI Myth Busters! - Jamaican Health Education`;
+      
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(shareText)
+          .then(() => {
+            alert('Myth copied to clipboard! 📋\nYou can now share it anywhere.');
+          })
+          .catch(err => {
+            console.error('Clipboard API failed:', err);
+            fallbackCopyToClipboard(shareText);
+          });
+      } else {
+        fallbackCopyToClipboard(shareText);
+      }
+    }
+
+    function fallbackCopyToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          alert('Myth copied to clipboard! 📋\nYou can now share it anywhere.');
+        } else {
+          alert('Could not copy to clipboard. Please select and copy the text manually.');
+        }
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+        alert('Could not copy to clipboard. Please select and copy the text manually.');
+      }
+      
+      document.body.removeChild(textArea);
     }
 
     // ============================================================================
@@ -2564,6 +2923,7 @@
         appState.certificateId = '';
         appState.completionDate = '';
         appState.userName = '';
+        appState.currentMythIndex = 0;
         
         saveState();
         loadHome();
