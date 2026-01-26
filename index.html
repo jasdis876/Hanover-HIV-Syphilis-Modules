@@ -73,13 +73,10 @@
       background-size: 30px 30px;
       animation: float 20s linear infinite;
       opacity: 0.3;
-
-      /* ✅ IMPORTANT FIX: don't block clicks */
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ✅ Ensure header content is above overlay */
     .header * {
       position: relative;
       z-index: 1;
@@ -358,6 +355,91 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Interactive Elements */
+    .drag-drop-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    @media (max-width: 768px) {
+      .drag-drop-container { grid-template-columns: 1fr; }
+    }
+
+    .drag-column {
+      background: #f8f9fa;
+      border-radius: var(--radius);
+      padding: 25px;
+      min-height: 300px;
+      border: 3px dashed #d1d8e0;
+    }
+
+    .drag-column h4 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+      font-size: 1.2rem;
+    }
+
+    .drag-item {
+      background: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      cursor: move;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .drag-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .drag-icon { font-size: 1.5rem; }
+
+    .correct-drop { border-color: var(--primary-green) !important; background: #e8f8f1 !important; }
+    .incorrect-drop { border-color: var(--primary-red) !important; background: #fdeaea !important; }
+
+    .animation-container {
+      height: 120px;
+      background: linear-gradient(90deg, #e3f2fd 0%, #f3e5f5 100%);
+      border-radius: var(--radius);
+      margin: 25px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .immune-cell {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-blue);
+      border-radius: 50%;
+      position: absolute;
+      animation: moveCell 4s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    @keyframes moveCell {
+      0% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(100px, 30px) scale(1.2); }
+      50% { transform: translate(200px, -20px) scale(1); }
+      75% { transform: translate(300px, 40px) scale(0.8); }
+      100% { transform: translate(400px, 0) scale(1); }
+    }
+
     /* Quiz Screen */
     .quiz-container {
       background: var(--card-bg);
@@ -394,6 +476,8 @@
 
     .quiz-option:hover { background: #eef5ff; border-color: var(--primary-blue); }
     .quiz-option.selected { background: #e3f2fd; border-color: var(--primary-blue); color: var(--primary-blue); }
+    .quiz-option.correct { background: #d5f4e6; border-color: var(--primary-green); color: var(--primary-green); }
+    .quiz-option.incorrect { background: #fdeaea; border-color: var(--primary-red); color: var(--primary-red); }
 
     .option-indicator {
       width: 30px;
@@ -456,6 +540,182 @@
       text-align: center;
     }
 
+    .certificate-locked {
+      text-align: center;
+      padding: 40px;
+      background: #f8f9fa;
+      border-radius: var(--radius);
+      margin: 30px 0;
+    }
+
+    .locked-icon {
+      font-size: 4rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .certificate-preview {
+      width: 100%;
+      min-height: 500px;
+      background: linear-gradient(135deg, #fdfcfb 0%, #f5f7fa 100%);
+      border: 20px solid #2a6ebb;
+      border-image: linear-gradient(45deg, #2a6ebb, #2bb5b5) 1;
+      padding: 50px;
+      margin: 30px 0;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+
+    .certificate-preview::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 2px dashed rgba(42, 110, 187, 0.3);
+      pointer-events: none;
+    }
+
+    .certificate-seal {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      box-shadow: 0 10px 30px rgba(42, 110, 187, 0.3);
+      animation: sealRotate 10s linear infinite;
+    }
+
+    @keyframes sealRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .certificate-title {
+      font-size: 3.5rem;
+      color: #2a6ebb;
+      margin-bottom: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .certificate-subtitle {
+      font-size: 1.3rem;
+      color: var(--text-light);
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .certificate-name {
+      font-size: 3rem;
+      color: var(--text-dark);
+      margin: 40px 0;
+      padding: 20px;
+      border-bottom: 3px solid var(--primary-teal);
+      border-top: 3px solid var(--primary-teal);
+      font-weight: 700;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .certificate-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin: 30px 0;
+      color: var(--text-dark);
+    }
+
+    .certificate-details {
+      display: flex;
+      justify-content: space-around;
+      margin: 40px 0;
+      padding-top: 30px;
+      border-top: 2px dashed #e0e6ef;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .certificate-detail {
+      text-align: center;
+    }
+
+    .detail-label {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: 1.3rem;
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+
+    .certificate-signature {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid var(--primary-blue);
+      width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .signature-line {
+      height: 2px;
+      background: var(--text-dark);
+      margin: 20px 0;
+    }
+
+    .name-input-container {
+      margin: 30px 0;
+    }
+
+    .name-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 18px 25px;
+      font-size: 1.3rem;
+      border: 3px solid #e0e6ef;
+      border-radius: var(--radius);
+      text-align: center;
+      transition: var(--transition);
+      margin: 0 auto;
+      display: block;
+    }
+
+    .name-input:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(42, 110, 187, 0.2);
+    }
+
+    .remaining-modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .remaining-module {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
     /* Footer */
     .footer {
       text-align: center;
@@ -490,7 +750,6 @@
       border-radius: 2px;
     }
 
-    /* ✅ MISSING KEYFRAMES FIX */
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0.95; }
@@ -504,6 +763,9 @@
       .track-btn { height: 150px; font-size: 1.3rem; }
       .icon-large { font-size: 2.5rem; }
       .module-content, .quiz-container, .certificate-container { padding: 25px; }
+      .certificate-preview { padding: 25px; border-width: 10px; }
+      .certificate-title { font-size: 2.5rem; }
+      .certificate-name { font-size: 2rem; min-height: 80px; }
       .btn { padding: 15px 25px; font-size: 1.1rem; }
       .quiz-question { font-size: 1.3rem; }
     }
@@ -511,6 +773,8 @@
     @media (max-width: 480px) {
       body { padding: 10px; }
       .header { padding: 20px 15px; }
+      .certificate-title { font-size: 2rem; }
+      .certificate-name { font-size: 1.5rem; }
     }
 
     /* Utility */
@@ -666,7 +930,7 @@
       </div>
     </div>
 
-    <!-- Certificate Screen (kept minimal here; your original block can stay) -->
+    <!-- Certificate Screen -->
     <div id="certificate-screen" class="screen hidden">
       <div class="header">
         <h1>Certificate of Completion</h1>
@@ -674,11 +938,59 @@
       </div>
 
       <div class="content">
-        <div class="certificate-container">
-          <p style="margin-bottom:12px;">
-            Your certificate feature is still in your original code section.
-          </p>
-          <button class="btn btn-back" onclick="loadHome()">Back</button>
+        <div id="certificate-locked" class="certificate-locked hidden">
+          <div class="locked-icon">🔒</div>
+          <h3>Certificate Locked</h3>
+          <p>Complete all modules in both HIV and Syphilis tracks to unlock your certificate.</p>
+          
+          <div class="remaining-modules" id="remaining-modules"></div>
+        </div>
+
+        <div id="certificate-unlocked" class="certificate-container hidden">
+          <div class="name-input-container">
+            <input type="text" id="certificate-name" class="name-input" 
+                   placeholder="Enter your name for the certificate" 
+                   maxlength="50" oninput="updateCertificatePreview()">
+          </div>
+
+          <div class="certificate-preview" id="certificate-preview">
+            <div class="certificate-seal">🏆</div>
+            <h2 class="certificate-title">Certificate of Completion</h2>
+            <p class="certificate-subtitle">This certifies that</p>
+            
+            <div class="certificate-name" id="preview-name">Your Name Here</div>
+            
+            <p class="certificate-text">
+              has successfully completed the STI SmartLearn Adult Education Portal modules 
+              on HIV and Syphilis, demonstrating comprehensive understanding of prevention, 
+              transmission, treatment, and public health principles.
+            </p>
+            
+            <div class="certificate-details">
+              <div class="certificate-detail">
+                <div class="detail-label">Date Issued</div>
+                <div class="detail-value" id="preview-date">January 1, 2026</div>
+              </div>
+              <div class="certificate-detail">
+                <div class="detail-label">Certificate ID</div>
+                <div class="detail-value" id="preview-id">CERT-2026-000000</div>
+              </div>
+              <div class="certificate-detail">
+                <div class="detail-label">Completion Status</div>
+                <div class="detail-value">All Modules Completed</div>
+              </div>
+            </div>
+            
+            <div class="certificate-signature">
+              <div class="signature-line"></div>
+              <p>Hanover HIV/STI/TB Treatment & Prevention Team</p>
+            </div>
+          </div>
+
+          <div class="quiz-navigation">
+            <button class="btn btn-primary" onclick="downloadCertificate()">📥 Download Certificate</button>
+            <button class="btn btn-back" onclick="loadHome()">Back to Home</button>
+          </div>
         </div>
       </div>
     </div>
@@ -695,7 +1007,7 @@
 
   <script>
     // ============================================================================
-    // APPLICATION STATE & DATA (kept)
+    // APPLICATION STATE & DATA
     // ============================================================================
     const appState = {
       currentTrack: null,
@@ -710,28 +1022,928 @@
       completionDate: ''
     };
 
-    // ✅ IMPORTANT:
-    // I’m keeping your learningContent as-is so you can paste back in your full content.
-    // Paste your full "learningContent" object here exactly as it was.
-    const learningContent = window.learningContent || {
+    const learningContent = {
       hiv: [
         {
           title: "Module 1: What is HIV?",
-          content: `<div class="content-section"><h3>🧬 HIV Definition</h3><p>Content here… (paste your full content)</p></div>`,
+          content: `
+            <div class="content-section">
+              <h3>🧬 HIV Definition</h3>
+              <p><strong>HIV (Human Immunodeficiency Virus)</strong> is a virus that attacks the body's immune system, specifically the CD4 cells (T cells), which help the immune system fight off infections.</p>
+              <p>Unlike many other viruses, the human body cannot get rid of HIV completely, so once someone has HIV, they have it for life.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>⚕️ HIV vs AIDS</h3>
+              <p><strong>HIV</strong> is the virus that causes infection. <strong>AIDS (Acquired Immunodeficiency Syndrome)</strong> is the most advanced stage of HIV infection.</p>
+              <ul>
+                <li>HIV is the cause, AIDS is the potential outcome</li>
+                <li>Not everyone with HIV develops AIDS</li>
+                <li>With proper treatment, people with HIV can live long, healthy lives without ever developing AIDS</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>🛡️ Immune System Impact</h3>
+              <div class="animation-container">
+                <div class="immune-cell">🛡️</div>
+                <div class="immune-cell">⚔️</div>
+                <div class="immune-cell">❤️</div>
+              </div>
+              <p>HIV weakens the immune system by destroying CD4 cells, making it harder for the body to fight infections and certain cancers.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>💊 Treatment & Management</h3>
+              <p>HIV is a chronic but manageable condition. With proper medical care:</p>
+              <ol>
+                <li>People can live long, healthy lives</li>
+                <li>Treatment reduces the virus to undetectable levels</li>
+                <li>Undetectable = Untransmittable (U=U)</li>
+                <li>Regular monitoring and adherence are key</li>
+              </ol>
+            </div>
+
+            <div class="content-section">
+              <h3>🎯 Key Facts (Tap to Reveal)</h3>
+              <div class="flip-card">
+                <div class="flip-question">Can HIV be cured? <span>👇</span></div>
+                <div class="flip-answer">Currently, there is no cure for HIV, but with proper treatment, people with HIV can live long, healthy lives and prevent transmitting HIV to others.</div>
+              </div>
+              <div class="flip-card">
+                <div class="flip-question">Is HIV the same as AIDS? <span>👇</span></div>
+                <div class="flip-answer">No. HIV is the virus that can lead to AIDS if left untreated. AIDS is the most advanced stage of HIV infection.</div>
+              </div>
+              <div class="flip-card">
+                <div class="flip-question">Can HIV be prevented? <span>👇</span></div>
+                <div class="flip-answer">Yes. HIV can be prevented through condom use, pre-exposure prophylaxis (PrEP), treatment as prevention, and harm reduction strategies.</div>
+              </div>
+            </div>
+          `,
           quiz: [
-            { question: "Demo Q1?", options: ["A","B","C","D"], correct: 0, explanation: "Explanation" },
-            { question: "Demo Q2?", options: ["A","B"], correct: 0, explanation: "Explanation" }
+            {
+              question: "What does HIV stand for?",
+              options: [
+                "Human Immunodeficiency Virus",
+                "Human Infectious Virus",
+                "Human Immune Virus",
+                "Human Inflammation Virus"
+              ],
+              correct: 0,
+              explanation: "HIV stands for Human Immunodeficiency Virus, which attacks the body's immune system."
+            },
+            {
+              question: "What is the main difference between HIV and AIDS?",
+              options: [
+                "HIV is the virus, AIDS is the advanced stage of infection",
+                "They are the same thing",
+                "AIDS is the virus, HIV is the disease",
+                "HIV is curable, AIDS is not"
+              ],
+              correct: 0,
+              explanation: "HIV is the virus that causes the infection, while AIDS is the most advanced stage of HIV infection if left untreated."
+            },
+            {
+              question: "Which cells does HIV primarily attack?",
+              options: [
+                "CD4 cells (T cells)",
+                "Red blood cells",
+                "Platelets",
+                "Nerve cells"
+              ],
+              correct: 0,
+              explanation: "HIV primarily attacks CD4 cells (T cells), which are crucial for the immune system's functioning."
+            },
+            {
+              question: "What does U=U mean in HIV treatment?",
+              options: [
+                "Undetectable = Untransmittable",
+                "Universal = Understandable",
+                "United = Unstoppable",
+                "Untreated = Uncontrollable"
+              ],
+              correct: 0,
+              explanation: "U=U means that when a person living with HIV is on effective treatment and has an undetectable viral load, they cannot sexually transmit HIV to others."
+            },
+            {
+              question: "Can people with HIV live long, healthy lives?",
+              options: [
+                "Yes, with proper treatment and care",
+                "No, life expectancy is always short",
+                "Only if diagnosed early",
+                "Only in developed countries"
+              ],
+              correct: 0,
+              explanation: "With proper antiretroviral therapy and medical care, people with HIV can live long, healthy lives and have a normal life expectancy."
+            }
           ]
         },
-        { title:"Module 2", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] },
-        { title:"Module 3", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] },
-        { title:"Module 4", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] }
+        {
+          title: "Module 2: HIV Transmission",
+          content: `
+            <div class="content-section">
+              <h3>🩸 Transmission Routes</h3>
+              <p>HIV is transmitted through specific body fluids:</p>
+              <ul>
+                <li><strong>Blood</strong> - Sharing needles, blood transfusions (rare in screened blood)</li>
+                <li><strong>Sexual fluids</strong> - Semen, vaginal fluids, rectal fluids</li>
+                <li><strong>Mother-to-child</strong> - During pregnancy, childbirth, or breastfeeding</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>❌ Non-Transmission Routes</h3>
+              <p>HIV is <strong>NOT</strong> transmitted through:</p>
+              <div class="drag-drop-container">
+                <div class="drag-column" id="can-transmit">
+                  <h4>Can Transmit HIV</h4>
+                </div>
+                <div class="drag-column" id="cannot-transmit">
+                  <h4>Cannot Transmit HIV</h4>
+                </div>
+              </div>
+              <p>Drag items to the correct columns above to test your knowledge.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>⚠️ Risk Factors</h3>
+              <p>Factors that increase HIV transmission risk:</p>
+              <ul>
+                <li>Having another sexually transmitted infection (STI)</li>
+                <li>Unprotected anal or vaginal sex</li>
+                <li>Sharing injection drug equipment</li>
+                <li>Multiple sexual partners without protection</li>
+                <li>Not being on treatment if living with HIV</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>🤰 Mother-to-Child Transmission (MTCT)</h3>
+              <p>Without intervention, HIV can be transmitted from mother to child:</p>
+              <ol>
+                <li>During pregnancy (through the placenta)</li>
+                <li>During childbirth (through contact with blood and fluids)</li>
+                <li>During breastfeeding (through breast milk)</li>
+              </ol>
+              <p><strong>Prevention:</strong> With proper treatment during pregnancy and delivery, and safe feeding practices, the risk can be reduced to less than 1%.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "Which bodily fluid CAN transmit HIV?",
+              options: [
+                "Semen",
+                "Saliva",
+                "Sweat",
+                "Tears"
+              ],
+              correct: 0,
+              explanation: "Semen can transmit HIV. Saliva, sweat, and tears do not contain enough HIV to transmit infection."
+            },
+            {
+              question: "Can HIV be transmitted by hugging someone living with HIV?",
+              options: [
+                "No, HIV is not transmitted through casual contact",
+                "Yes, if you hug for too long",
+                "Yes, if the person has AIDS",
+                "Only if there are open wounds"
+              ],
+              correct: 0,
+              explanation: "HIV is not transmitted through hugging, touching, or other casual contact. The virus cannot survive outside the body for long."
+            },
+            {
+              question: "What is the risk of HIV transmission from mother to child without intervention?",
+              options: [
+                "15-45%",
+                "5-10%",
+                "60-80%",
+                "Less than 1%"
+              ],
+              correct: 0,
+              explanation: "Without intervention, the risk of mother-to-child transmission is 15-45%. With proper treatment, this can be reduced to less than 1%."
+            },
+            {
+              question: "Which activity presents the highest risk for HIV transmission?",
+              options: [
+                "Sharing needles for drug use",
+                "Sharing utensils",
+                "Swimming together",
+                "Working in the same office"
+              ],
+              correct: 0,
+              explanation: "Sharing needles for drug use presents a very high risk because blood can be directly transmitted. The other activities carry no risk."
+            },
+            {
+              question: "True or False: Having another STI increases the risk of HIV transmission.",
+              options: [
+                "True",
+                "False"
+              ],
+              correct: 0,
+              explanation: "True. Having another STI can cause inflammation and sores, making it easier for HIV to enter the body."
+            }
+          ]
+        },
+        {
+          title: "Module 3: HIV Prevention",
+          content: `
+            <div class="content-section">
+              <h3>🛡️ Comprehensive Prevention Strategies</h3>
+              <p>Effective HIV prevention requires multiple approaches:</p>
+              <ul>
+                <li><strong>Condom use</strong> - Correct and consistent use of male or female condoms</li>
+                <li><strong>Testing</strong> - Regular HIV and STI testing</li>
+                <li><strong>Treatment as Prevention</strong> - U=U principle</li>
+                <li><strong>Pre-Exposure Prophylaxis (PrEP)</strong> - Medication for HIV-negative people</li>
+                <li><strong>Post-Exposure Prophylaxis (PEP)</strong> - Emergency medication after potential exposure</li>
+                <li><strong>Harm reduction</strong> - Needle exchange programs</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>🎯 Prevention Checklist</h3>
+              <div class="flip-card">
+                <div class="flip-question">Condom Effectiveness <span>👇</span></div>
+                <div class="flip-answer">When used correctly and consistently, condoms are highly effective at preventing HIV transmission (approximately 99% effective).</div>
+              </div>
+              <div class="flip-card">
+                <div class="flip-question">PrEP Protection <span>👇</span></div>
+                <div class="flip-answer">Pre-Exposure Prophylaxis (PrEP) reduces the risk of getting HIV from sex by about 99% when taken as prescribed.</div>
+              </div>
+              <div class="flip-card">
+                <div class="flip-question">U=U Principle <span>👇</span></div>
+                <div class="flip-answer">Undetectable = Untransmittable. People with HIV who take medication as prescribed and maintain an undetectable viral load cannot sexually transmit HIV.</div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h3>🏥 Behavioral Change Communication (BCC)</h3>
+              <p>Key components of effective HIV prevention education:</p>
+              <ol>
+                <li>Accurate, stigma-free information</li>
+                <li>Skills building for safer practices</li>
+                <li>Access to prevention tools</li>
+                <li>Community engagement</li>
+                <li>Addressing social determinants of health</li>
+              </ol>
+            </div>
+
+            <div class="content-section">
+              <h3>🌍 Public Health Approach</h3>
+              <p>Combination prevention includes:</p>
+              <ul>
+                <li>Biomedical interventions (condoms, PrEP, treatment)</li>
+                <li>Behavioral interventions (education, counseling)</li>
+                <li>Structural interventions (laws, policies, reducing stigma)</li>
+              </ul>
+              <p>This comprehensive approach addresses HIV at individual, community, and societal levels.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "What is the approximate effectiveness of condoms in preventing HIV transmission when used correctly?",
+              options: [
+                "99%",
+                "75%",
+                "50%",
+                "25%"
+              ],
+              correct: 0,
+              explanation: "When used correctly and consistently, condoms are approximately 99% effective at preventing HIV transmission during sexual activity."
+            },
+            {
+              question: "What does PrEP stand for?",
+              options: [
+                "Pre-Exposure Prophylaxis",
+                "Post-Exposure Prevention",
+                "Preventive Response Protocol",
+                "Protection and Resistance Education"
+              ],
+              correct: 0,
+              explanation: "PrEP stands for Pre-Exposure Prophylaxis, which is medication taken by HIV-negative people to prevent getting HIV."
+            },
+            {
+              question: "True or False: Treatment as prevention means that people living with HIV on effective treatment cannot transmit the virus sexually.",
+              options: [
+                "True",
+                "False"
+              ],
+              correct: 0,
+              explanation: "True. This is the U=U (Undetectable = Untransmittable) principle, which is scientifically proven."
+            },
+            {
+              question: "When should PEP (Post-Exposure Prophylaxis) be started after potential HIV exposure?",
+              options: [
+                "Within 72 hours",
+                "Within 1 week",
+                "Within 24 hours",
+                "Within 48 hours"
+              ],
+              correct: 0,
+              explanation: "PEP should be started as soon as possible, but definitely within 72 hours (3 days) after potential exposure. The sooner, the better."
+            },
+            {
+              question: "Which of these is NOT a component of combination prevention?",
+              options: [
+                "Ignoring social factors",
+                "Biomedical interventions",
+                "Behavioral interventions",
+                "Structural interventions"
+              ],
+              correct: 0,
+              explanation: "Ignoring social factors is not part of combination prevention. Effective prevention must address biomedical, behavioral, and structural factors together."
+            }
+          ]
+        },
+        {
+          title: "Module 4: HIV Treatment",
+          content: `
+            <div class="content-section">
+              <h3>💊 Antiretroviral Therapy (ART)</h3>
+              <p>ART is the standard treatment for HIV. It involves taking a combination of HIV medicines every day.</p>
+              <ul>
+                <li>Reduces the viral load (amount of HIV in the blood)</li>
+                <li>Helps maintain or increase CD4 cell count</li>
+                <li>Prevents HIV from progressing to AIDS</li>
+                <li>Reduces the risk of HIV transmission</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>📈 Treatment Timeline & Goals</h3>
+              <div class="animation-container">
+                <div style="position: relative; height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;">
+                  <div style="position: absolute; left: 10%; background: var(--primary-green); color: white; padding: 10px; border-radius: 10px;">Start ART</div>
+                  <div style="position: absolute; left: 30%; background: var(--primary-teal); color: white; padding: 10px; border-radius: 10px;">Viral Load Drops</div>
+                  <div style="position: absolute; left: 50%; background: var(--primary-blue); color: white; padding: 10px; border-radius: 10px;">Undetectable</div>
+                  <div style="position: absolute; left: 70%; background: var(--primary-purple); color: white; padding: 10px; border-radius: 10px;">U=U</div>
+                  <div style="position: absolute; left: 90%; background: var(--primary-green); color: white; padding: 10px; border-radius: 10px;">Healthy Life</div>
+                </div>
+              </div>
+              <p>Treatment goals: Achieve and maintain viral suppression (undetectable viral load) to protect health and prevent transmission.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>✅ Treatment Adherence</h3>
+              <p>Taking ART exactly as prescribed is crucial:</p>
+              <ol>
+                <li>Take medications at the same time every day</li>
+                <li>Don't skip doses</li>
+                <li>Communicate with healthcare providers about side effects</li>
+                <li>Attend regular medical appointments</li>
+                <li>Get regular viral load and CD4 tests</li>
+              </ol>
+            </div>
+
+            <div class="content-section">
+              <h3>🏥 Long-Term Management</h3>
+              <p>Living well with HIV involves:</p>
+              <ul>
+                <li>Regular medical care and monitoring</li>
+                <li>Healthy lifestyle (nutrition, exercise, sleep)</li>
+                <li>Mental health support</li>
+                <li>Social support systems</li>
+                <li>Addressing co-morbidities and aging with HIV</li>
+              </ul>
+              <p>With proper care, people with HIV can live long, healthy lives and have a normal life expectancy.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "What is the main goal of HIV treatment?",
+              options: [
+                "Achieve and maintain an undetectable viral load",
+                "Cure HIV completely",
+                "Only treat symptoms",
+                "Prevent all infections"
+              ],
+              correct: 0,
+              explanation: "The main goal of HIV treatment is to achieve and maintain an undetectable viral load, which protects the person's health and prevents transmission."
+            },
+            {
+              question: "What does U=U mean in the context of HIV treatment?",
+              options: [
+                "Undetectable = Untransmittable",
+                "Universal = Understandable",
+                "United = Unstoppable",
+                "Untreated = Uncontrollable"
+              ],
+              correct: 0,
+              explanation: "U=U means that when a person living with HIV has an undetectable viral load on treatment, they cannot sexually transmit HIV to others."
+            },
+            {
+              question: "Why is treatment adherence important?",
+              options: [
+                "To prevent drug resistance and maintain viral suppression",
+                "To cure HIV faster",
+                "To reduce medication costs",
+                "To avoid doctor visits"
+              ],
+              correct: 0,
+              explanation: "Adherence is crucial to prevent the virus from developing drug resistance and to maintain viral suppression for both health and prevention benefits."
+            },
+            {
+              question: "True or False: People with HIV on effective treatment can live a normal lifespan.",
+              options: [
+                "True",
+                "False"
+              ],
+              correct: 0,
+              explanation: "True. With proper treatment and care, people with HIV can have a normal life expectancy and live healthy, fulfilling lives."
+            },
+            {
+              question: "What should be monitored regularly during HIV treatment?",
+              options: [
+                "Viral load and CD4 count",
+                "Only weight",
+                "Only blood pressure",
+                "Only cholesterol"
+              ],
+              correct: 0,
+              explanation: "Regular monitoring of viral load and CD4 count is essential to assess treatment effectiveness and overall immune health."
+            }
+          ]
+        }
       ],
       syphilis: [
-        { title:"Module 1", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] },
-        { title:"Module 2", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] },
-        { title:"Module 3", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] },
-        { title:"Module 4", content:"<div class='content-section'><h3>...</h3></div>", quiz:[{question:"?",options:["A","B"],correct:0,explanation:""}] }
+        {
+          title: "Module 1: What is Syphilis?",
+          content: `
+            <div class="content-section">
+              <h3>🦠 Syphilis Definition</h3>
+              <p>Syphilis is a sexually transmitted infection (STI) caused by the bacterium <em>Treponema pallidum</em>.</p>
+              <p>It progresses in stages and can cause serious health complications if left untreated, but it is curable with appropriate antibiotics.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>🔬 Bacterial Infection</h3>
+              <div class="animation-container">
+                <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                  <div style="font-size: 4rem; animation: pulse 2s infinite">🦠</div>
+                  <div style="margin-left: 20px; text-align: left;">
+                    <p><strong>Treponema pallidum</strong></p>
+                    <p>Spirochete bacterium</p>
+                    <p>Cannot survive long outside body</p>
+                  </div>
+                </div>
+              </div>
+              <p>Syphilis is caused by a spiral-shaped bacterium that enters the body through mucous membranes or broken skin.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>⚕️ Serious Consequences if Untreated</h3>
+              <p>Without treatment, syphilis can progress through stages and cause:</p>
+              <ul>
+                <li>Damage to the heart and blood vessels</li>
+                <li>Neurological problems (neurosyphilis)</li>
+                <li>Vision and hearing loss</li>
+                <li>Dementia</li>
+                <li>Congenital syphilis in babies</li>
+                <li>Increased HIV transmission risk</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>🤰 Pregnancy Risks</h3>
+              <p>Syphilis during pregnancy is particularly dangerous:</p>
+              <ol>
+                <li>Can be transmitted to the baby (congenital syphilis)</li>
+                <li>Can cause miscarriage, stillbirth, or premature birth</li>
+                <li>Can cause serious birth defects</li>
+                <li>Can be fatal to the baby</li>
+              </ol>
+              <p><strong>Important:</strong> All pregnant women should be tested for syphilis, and treatment can prevent these outcomes.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "What type of organism causes syphilis?",
+              options: [
+                "Bacterium (Treponema pallidum)",
+                "Virus",
+                "Fungus",
+                "Parasite"
+              ],
+              correct: 0,
+              explanation: "Syphilis is caused by the bacterium Treponema pallidum, a spiral-shaped organism."
+            },
+            {
+              question: "Is syphilis curable with proper treatment?",
+              options: [
+                "Yes, with appropriate antibiotics",
+                "No, it's a lifelong infection",
+                "Only in early stages",
+                "Only with surgery"
+              ],
+              correct: 0,
+              explanation: "Yes, syphilis is curable with appropriate antibiotics, typically penicillin. Early treatment prevents complications."
+            },
+            {
+              question: "What can happen if syphilis is left untreated?",
+              options: [
+                "Serious damage to heart, brain, and other organs",
+                "It usually goes away on its own",
+                "It only causes mild symptoms",
+                "It becomes less infectious over time"
+              ],
+              correct: 0,
+              explanation: "Untreated syphilis can progress to cause severe damage to the heart, brain, nerves, and other organs, and can be fatal."
+            },
+            {
+              question: "Why is syphilis particularly dangerous during pregnancy?",
+              options: [
+                "It can cause congenital syphilis in the baby",
+                "It makes morning sickness worse",
+                "It prevents pregnancy",
+                "It only affects the mother"
+              ],
+              correct: 0,
+              explanation: "Syphilis can cross the placenta and infect the developing baby, causing congenital syphilis which can lead to stillbirth, neonatal death, or severe disabilities."
+            },
+            {
+              question: "True or False: Syphilis increases the risk of HIV transmission.",
+              options: [
+                "True",
+                "False"
+              ],
+              correct: 0,
+              explanation: "True. Syphilis causes sores that make it easier for HIV to enter the body, increasing transmission risk in both directions."
+            }
+          ]
+        },
+        {
+          title: "Module 2: Stages of Syphilis",
+          content: `
+            <div class="content-section">
+              <h3>📈 Disease Progression</h3>
+              <p>Syphilis progresses through distinct stages if left untreated:</p>
+              <div style="display: flex; overflow-x: auto; gap: 15px; padding: 20px 0; margin: 20px 0;">
+                <div style="min-width: 150px; background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center; border-top: 5px solid var(--primary-blue);">
+                  <div style="font-size: 2rem;">1️⃣</div>
+                  <strong>Primary</strong>
+                  <p>3-90 days</p>
+                  <small>Sore (chancre)</small>
+                </div>
+                <div style="min-width: 150px; background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center; border-top: 5px solid var(--primary-teal);">
+                  <div style="font-size: 2rem;">2️⃣</div>
+                  <strong>Secondary</strong>
+                  <p>2-24 weeks</p>
+                  <small>Rash, fever</small>
+                </div>
+                <div style="min-width: 150px; background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center; border-top: 5px solid var(--primary-green);">
+                  <div style="font-size: 2rem;">3️⃣</div>
+                  <strong>Latent</strong>
+                  <p>1-30 years</p>
+                  <small>No symptoms</small>
+                </div>
+                <div style="min-width: 150px; background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center; border-top: 5px solid var(--primary-red);">
+                  <div style="font-size: 2rem;">4️⃣</div>
+                  <strong>Tertiary</strong>
+                  <p>10-30 years</p>
+                  <small>Organ damage</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h3>1️⃣ Primary Stage</h3>
+              <p><strong>Timing:</strong> 3 to 90 days after exposure</p>
+              <p><strong>Symptoms:</strong> Single or multiple sores (chancres) at infection site</p>
+              <p><strong>Characteristics:</strong></p>
+              <ul>
+                <li>Usually firm, round, and painless</li>
+                <li>Lasts 3 to 6 weeks</li>
+                <li>Heals without treatment, but infection progresses</li>
+                <li>Highly infectious</li>
+              </ul>
+            </div>
+
+            <div class="content-section">
+              <h3>2️⃣ Secondary Stage</h3>
+              <p><strong>Timing:</strong> 2 to 24 weeks after initial infection</p>
+              <p><strong>Symptoms may include:</strong></p>
+              <ul>
+                <li>Skin rash (often on palms and soles)</li>
+                <li>Fever, sore throat</li>
+                <li>Swollen lymph nodes</li>
+                <li>Headache, fatigue</li>
+                <li>Weight loss, muscle aches</li>
+              </ul>
+              <p><strong>Note:</strong> Symptoms may come and go. Without treatment, infection progresses to latent stage.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>3️⃣ Latent & 4️⃣ Tertiary Stages</h3>
+              <p><strong>Latent Stage:</strong> No visible symptoms, but infection persists. Can last years.</p>
+              <p><strong>Tertiary Stage:</strong> Develops in about 15-30% of untreated people, causing severe damage to:</p>
+              <ul>
+                <li>Brain and nerves (neurosyphilis)</li>
+                <li>Eyes (ocular syphilis)</li>
+                <li>Heart and blood vessels</li>
+                <li>Liver, bones, and joints</li>
+              </ul>
+              <p><strong>Congenital Syphilis:</strong> Transmission from mother to baby during pregnancy or birth.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "What is the characteristic symptom of primary syphilis?",
+              options: [
+                "Painless sore (chancre)",
+                "Itchy rash",
+                "Severe headache",
+                "Cough"
+              ],
+              correct: 0,
+              explanation: "Primary syphilis typically presents with a painless sore called a chancre at the site of infection."
+            },
+            {
+              question: "In which stage does syphilis cause a rash often on palms and soles?",
+              options: [
+                "Secondary stage",
+                "Primary stage",
+                "Latent stage",
+                "Tertiary stage"
+              ],
+              correct: 0,
+              explanation: "The secondary stage of syphilis often includes a rash that can appear on the palms and soles."
+            },
+            {
+              question: "How long can the latent stage of syphilis last?",
+              options: [
+                "Up to 30 years",
+                "1-2 weeks",
+                "3-6 months",
+                "Exactly 5 years"
+              ],
+              correct: 0,
+              explanation: "The latent stage can last for many years (1-30 years) without symptoms, but the infection is still present."
+            },
+            {
+              question: "Which stage of syphilis can cause damage to the brain and heart?",
+              options: [
+                "Tertiary stage",
+                "Primary stage",
+                "Secondary stage",
+                "All stages"
+              ],
+              correct: 0,
+              explanation: "The tertiary stage can cause severe damage to multiple organ systems including the brain, nerves, heart, and blood vessels."
+            },
+            {
+              question: "True or False: Syphilis symptoms always progress in the same order for everyone.",
+              options: [
+                "False",
+                "True"
+              ],
+              correct: 0,
+              explanation: "False. While syphilis generally progresses through stages, the timing and presence of symptoms can vary between individuals."
+            }
+          ]
+        },
+        {
+          title: "Module 3: Syphilis Transmission",
+          content: `
+            <div class="content-section">
+              <h3>🔄 Transmission Pathways</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 25px 0;">
+                <div style="background: #f0f7ff; padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--primary-blue);">
+                  <div style="font-size: 2.5rem;">👫</div>
+                  <h4>Sexual Transmission</h4>
+                  <p>Direct contact with syphilis sores during vaginal, anal, or oral sex</p>
+                </div>
+                <div style="background: #f0f7ff; padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--primary-teal);">
+                  <div style="font-size: 2.5rem;">🤰</div>
+                  <h4>Mother-to-Child</h4>
+                  <p>During pregnancy or childbirth (congenital syphilis)</p>
+                </div>
+                <div style="background: #f0f7ff; padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--primary-green);">
+                  <div style="font-size: 2.5rem;">🩸</div>
+                  <h4>Blood Exposure</h4>
+                  <p>Rarely through blood transfusion or sharing needles</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h3>🔗 STI Co-Infection with HIV</h3>
+              <p>Syphilis and HIV have a significant co-infection relationship:</p>
+              <ul>
+                <li>Syphilis sores make it easier for HIV to enter the body</li>
+                <li>People with HIV may have more severe syphilis symptoms</li>
+                <li>HIV can alter the presentation of syphilis</li>
+                <li>Both infections require coordinated management</li>
+              </ul>
+              <p><strong>Public Health Impact:</strong> Syphilis outbreaks can signal increased HIV risk in communities.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>⚠️ Risk Factors for Transmission</h3>
+              <p>Factors that increase syphilis transmission risk:</p>
+              <ol>
+                <li>Unprotected sexual contact</li>
+                <li>Multiple sexual partners</li>
+                <li>Sex with partners who have syphilis</li>
+                <li>Men who have sex with men (MSM)</li>
+                <li>Commercial sex work</li>
+                <li>Injection drug use</li>
+                <li>Living with HIV</li>
+              </ol>
+              <p>Note: Anyone sexually active can get syphilis.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>❌ Non-Transmission Routes</h3>
+              <p>Syphilis is NOT transmitted through:</p>
+              <ul>
+                <li>Casual contact (hugging, shaking hands)</li>
+                <li>Sharing toilets, utensils, or clothing</li>
+                <li>Swimming pools or hot tubs</li>
+                <li>Insect bites</li>
+              </ul>
+              <p>The bacterium cannot survive long outside the human body and requires direct contact with infectious sores for transmission.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "How is syphilis primarily transmitted?",
+              options: [
+                "Direct contact with infectious sores during sex",
+                "Sharing food or drinks",
+                "Coughing or sneezing",
+                "Using public toilets"
+              ],
+              correct: 0,
+              explanation: "Syphilis is primarily transmitted through direct contact with infectious sores during vaginal, anal, or oral sex."
+            },
+            {
+              question: "When can syphilis be transmitted from mother to baby?",
+              options: [
+                "During pregnancy and childbirth",
+                "Only during breastfeeding",
+                "Only during the first trimester",
+                "Only if the mother has symptoms"
+              ],
+              correct: 0,
+              explanation: "Syphilis can be transmitted from mother to baby during pregnancy (through the placenta) and during childbirth (through contact with sores)."
+            },
+            {
+              question: "Why does syphilis increase HIV transmission risk?",
+              options: [
+                "Sores provide entry points for HIV",
+                "It weakens the immune system immediately",
+                "It makes HIV treatment ineffective",
+                "It changes blood chemistry"
+              ],
+              correct: 0,
+              explanation: "Syphilis sores break the skin/mucous membranes, creating entry points that make it easier for HIV to enter the body."
+            },
+            {
+              question: "True or False: Syphilis can be transmitted through casual contact like hugging.",
+              options: [
+                "False",
+                "True"
+              ],
+              correct: 0,
+              explanation: "False. Syphilis requires direct contact with infectious sores. It is not transmitted through casual contact, hugging, or sharing utensils."
+            },
+            {
+              question: "Which population has seen increasing syphilis rates in recent years?",
+              options: [
+                "Men who have sex with men (MSM)",
+                "Only heterosexual women",
+                "Only older adults",
+                "Only teenagers"
+              ],
+              correct: 0,
+              explanation: "Men who have sex with men (MSM) have been disproportionately affected by syphilis in recent outbreaks, highlighting the need for targeted prevention."
+            }
+          ]
+        },
+        {
+          title: "Module 4: Syphilis Treatment & Prevention",
+          content: `
+            <div class="content-section">
+              <h3>💉 Treatment Principles</h3>
+              <p>Syphilis is curable with appropriate antibiotic treatment:</p>
+              <ul>
+                <li><strong>Primary drug:</strong> Penicillin G (benzathine penicillin)</li>
+                <li><strong>Alternative for penicillin allergy:</strong> Doxycycline or tetracycline</li>
+                <li><strong>Treatment duration:</strong> Depends on stage of infection</li>
+                <li><strong>Follow-up:</strong> Essential to ensure cure</li>
+              </ul>
+              <p><strong>Important:</strong> Never share medications or self-treat syphilis. Always see a healthcare provider.</p>
+            </div>
+
+            <div class="content-section">
+              <h3>📋 Treatment Pathway</h3>
+              <div style="background: linear-gradient(90deg, #e3f2fd 0%, #f3e5f5 100%); padding: 25px; border-radius: 10px; margin: 20px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                  <div style="text-align: center;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">1</div>
+                    <div>Diagnosis & Testing</div>
+                  </div>
+                  <div style="font-size: 1.5rem;">→</div>
+                  <div style="text-align: center;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">2</div>
+                    <div>Penicillin Injection</div>
+                  </div>
+                  <div style="font-size: 1.5rem;">→</div>
+                  <div style="text-align: center;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">3</div>
+                    <div>Partner Notification</div>
+                  </div>
+                  <div style="font-size: 1.5rem;">→</div>
+                  <div style="text-align: center;">
+                    <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">4</div>
+                    <div>Follow-up Testing</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h3>🛡️ Prevention Strategies</h3>
+              <p>Effective syphilis prevention includes:</p>
+              <ol>
+                <li><strong>Condom use:</strong> Correct and consistent use reduces risk</li>
+                <li><strong>Regular testing:</strong> Especially for sexually active individuals</li>
+                <li><strong>Partner treatment:</strong> All sexual partners should be treated</li>
+                <li><strong>Pregnancy screening:</strong> All pregnant women should be tested</li>
+                <li><strong>Education:</strong> Awareness of symptoms and risks</li>
+              </ol>
+            </div>
+
+            <div class="content-section">
+              <h3>🏥 Public Health Importance</h3>
+              <p>Syphilis control requires a public health approach:</p>
+              <ul>
+                <li>Routine screening in high-risk populations</li>
+                <li>Rapid treatment of cases</li>
+                <li>Partner notification and treatment</li>
+                <li>Integration with HIV services</li>
+                <li>Community education and stigma reduction</li>
+                <li>Congenital syphilis prevention programs</li>
+              </ul>
+              <p>Eliminating congenital syphilis is a global public health goal.</p>
+            </div>
+          `,
+          quiz: [
+            {
+              question: "What is the preferred treatment for syphilis?",
+              options: [
+                "Penicillin G injection",
+                "Over-the-counter antibiotics",
+                "Herbal remedies",
+                "Antiviral medication"
+              ],
+              correct: 0,
+              explanation: "Penicillin G (benzathine penicillin) administered by injection is the preferred treatment for all stages of syphilis."
+            },
+            {
+              question: "Why is follow-up testing important after syphilis treatment?",
+              options: [
+                "To ensure the infection is cured",
+                "To get more medication",
+                "To prove you had syphilis",
+                "Only if symptoms return"
+              ],
+              correct: 0,
+              explanation: "Follow-up testing ensures the treatment was effective and the infection is cured, as symptoms alone aren't reliable indicators."
+            },
+            {
+              question: "When should pregnant women be tested for syphilis?",
+              options: [
+                "At first prenatal visit and again in third trimester",
+                "Only if they have symptoms",
+                "Only if they request it",
+                "After delivery"
+              ],
+              correct: 0,
+              explanation: "Pregnant women should be tested at their first prenatal visit and again in the third trimester to prevent congenital syphilis."
+            },
+            {
+              question: "What should happen to sexual partners of someone diagnosed with syphilis?",
+              options: [
+                "They should be notified, tested, and treated if needed",
+                "Nothing, unless they have symptoms",
+                "They should wait and see",
+                "Only recent partners need testing"
+              ],
+              correct: 0,
+              explanation: "All recent sexual partners should be notified, tested, and treated if necessary to prevent reinfection and further spread."
+            },
+            {
+              question: "True or False: Syphilis can be completely cured with proper treatment.",
+              options: [
+                "True",
+                "False"
+              ],
+              correct: 0,
+              explanation: "True. Syphilis is curable with appropriate antibiotic treatment, though damage from late-stage syphilis may be permanent."
+            }
+          ]
+        }
       ]
     };
 
@@ -751,6 +1963,7 @@
       showScreen('home-screen');
       updateProgressDisplay();
       loadQuickModules();
+      checkAllCompleteAndUnlockCertificate();
     }
 
     function loadTrack(track) {
@@ -778,6 +1991,7 @@
       document.getElementById('module-content').innerHTML = moduleData.content;
 
       initFlipCards();
+      initDragDrop();
       showScreen('module-screen');
     }
 
@@ -792,8 +2006,64 @@
       });
     }
 
+    function initDragDrop() {
+      const canTransmitColumn = document.getElementById('can-transmit');
+      const cannotTransmitColumn = document.getElementById('cannot-transmit');
+      
+      if (canTransmitColumn && cannotTransmitColumn) {
+        canTransmitColumn.innerHTML = '<h4>Can Transmit HIV</h4>';
+        cannotTransmitColumn.innerHTML = '<h4>Cannot Transmit HIV</h4>';
+        
+        const items = [
+          { id: 'item1', icon: '🩸', text: 'Sharing needles', correctColumn: 'can-transmit' },
+          { id: 'item2', icon: '💑', text: 'Unprotected sex', correctColumn: 'can-transmit' },
+          { id: 'item3', icon: '🤗', text: 'Hugging', correctColumn: 'cannot-transmit' },
+          { id: 'item4', icon: '🍽️', text: 'Sharing food', correctColumn: 'cannot-transmit' },
+          { id: 'item5', icon: '🚽', text: 'Toilets', correctColumn: 'cannot-transmit' },
+          { id: 'item6', icon: '🦟', text: 'Mosquitoes', correctColumn: 'cannot-transmit' }
+        ];
+        
+        items.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'drag-item';
+          div.id = item.id;
+          div.draggable = true;
+          div.innerHTML = `<span class="drag-icon">${item.icon}</span> ${item.text}`;
+          
+          div.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', item.id);
+            e.dataTransfer.setData('correct-column', item.correctColumn);
+          });
+          
+          const targetColumn = item.correctColumn === 'can-transmit' ? canTransmitColumn : cannotTransmitColumn;
+          targetColumn.appendChild(div);
+        });
+        
+        [canTransmitColumn, cannotTransmitColumn].forEach(col => {
+          col.addEventListener('dragover', e => e.preventDefault());
+          col.addEventListener('drop', e => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const correctColumn = e.dataTransfer.getData('correct-column');
+            const draggedItem = document.getElementById(id);
+            
+            if (draggedItem) {
+              if (col.id === correctColumn) {
+                col.classList.add('correct-drop');
+                setTimeout(() => col.classList.remove('correct-drop'), 1000);
+                col.appendChild(draggedItem);
+              } else {
+                col.classList.add('incorrect-drop');
+                setTimeout(() => col.classList.remove('incorrect-drop'), 1000);
+              }
+            }
+          });
+        });
+      }
+    }
+
     // ============================================================================
-    // QUIZ ENGINE (FIXED)
+    // QUIZ ENGINE
     // ============================================================================
     function startQuiz() {
       appState.currentQuestion = 0;
@@ -826,17 +2096,14 @@
         optionsContainer.appendChild(el);
       });
 
-      // reset feedback
       document.getElementById('quiz-feedback').classList.remove('show');
 
-      // ✅ FIX: disable nav until answer selected
       const nextBtn = document.getElementById('next-question-btn');
       const submitBtn = document.getElementById('submit-quiz-btn');
 
       nextBtn.disabled = true;
       submitBtn.disabled = true;
 
-      // show correct nav buttons for last question
       const isLast = appState.currentQuestion === quizData.length - 1;
       nextBtn.classList.toggle('hidden', isLast);
       submitBtn.classList.toggle('hidden', !isLast);
@@ -844,9 +2111,10 @@
 
     function selectAnswer(answerIndex) {
       const options = document.querySelectorAll('.quiz-option');
-      options.forEach(o => o.classList.remove('selected'));
-      options[answerIndex].classList.add('selected');
-
+      options.forEach(o => {
+        o.classList.remove('selected', 'correct', 'incorrect');
+      });
+      
       const track = appState.currentTrack;
       const moduleIndex = appState.currentModule;
       const quizData = learningContent[track][moduleIndex].quiz;
@@ -854,18 +2122,26 @@
 
       appState.userAnswers[appState.currentQuestion] = answerIndex;
 
-      // feedback
+      const selectedOption = options[answerIndex];
+      selectedOption.classList.add('selected');
+      
+      const isCorrect = (answerIndex === q.correct);
+      if (isCorrect) {
+        selectedOption.classList.add('correct');
+      } else {
+        selectedOption.classList.add('incorrect');
+        options[q.correct].classList.add('correct');
+      }
+
       const feedback = document.getElementById('quiz-feedback');
       const title = document.getElementById('feedback-title');
       const expl = document.getElementById('feedback-explanation');
 
-      const correct = (answerIndex === q.correct);
-      title.textContent = correct ? '✅ Correct!' : '❌ Incorrect';
-      title.style.color = correct ? 'var(--primary-green)' : 'var(--primary-red)';
+      title.textContent = isCorrect ? '✅ Correct!' : '❌ Incorrect';
+      title.style.color = isCorrect ? 'var(--primary-green)' : 'var(--primary-red)';
       expl.textContent = q.explanation;
       feedback.classList.add('show');
 
-      // ✅ FIX: enable correct nav button after selection
       const isLast = appState.currentQuestion === quizData.length - 1;
       document.getElementById('next-question-btn').disabled = isLast ? true : false;
       document.getElementById('submit-quiz-btn').disabled = isLast ? false : true;
@@ -876,7 +2152,10 @@
       const moduleIndex = appState.currentModule;
       const quizData = learningContent[track][moduleIndex].quiz;
 
-      if (appState.userAnswers[appState.currentQuestion] === undefined) return;
+      if (appState.userAnswers[appState.currentQuestion] === undefined) {
+        alert('Please select an answer before continuing.');
+        return;
+      }
 
       if (appState.currentQuestion < quizData.length - 1) {
         appState.currentQuestion++;
@@ -885,7 +2164,10 @@
     }
 
     function submitQuiz() {
-      if (appState.userAnswers[appState.currentQuestion] === undefined) return;
+      if (appState.userAnswers[appState.currentQuestion] === undefined) {
+        alert('Please select an answer before submitting.');
+        return;
+      }
 
       const track = appState.currentTrack;
       const moduleIndex = appState.currentModule;
@@ -910,11 +2192,12 @@
       const next = document.getElementById('next-steps-text');
 
       if (score >= 70) {
-        perf.textContent = `Congratulations! You passed with ${correct} out of ${total} correct (${score}%). This module is now completed.`;
-        next.textContent = `Continue to the next module or return to the module list.`;
+        perf.textContent = `Congratulations! You passed with ${correct} out of ${total} questions correct (${score}%). This module is now marked as completed.`;
+        next.textContent = 'You have successfully completed this module. You may continue to the next module or return to the module list.';
+        checkAllCompleteAndUnlockCertificate();
       } else {
-        perf.textContent = `You scored ${correct} out of ${total} correct (${score}%). You need 70% or higher to pass.`;
-        next.textContent = `Review the module content and retake the quiz.`;
+        perf.textContent = `You scored ${correct} out of ${total} questions correct (${score}%). To pass, you need a score of 70% or higher.`;
+        next.textContent = 'You may retake the quiz to improve your score. Review the module content before attempting again.';
       }
 
       updateProgressDisplay();
@@ -942,9 +2225,11 @@
       if (completed === total) {
         certBtn.disabled = false;
         certBtn.classList.add('unlocked');
+        certBtn.title = 'Click to get your certificate';
       } else {
         certBtn.disabled = true;
         certBtn.classList.remove('unlocked');
+        certBtn.title = `Complete ${total - completed} more module(s) to unlock`;
       }
     }
 
@@ -1003,11 +2288,259 @@
     }
 
     // ============================================================================
-    // CERTIFICATE PLACEHOLDER (your full certificate system can be pasted back)
+    // CERTIFICATE SYSTEM
     // ============================================================================
+    function checkAllCompleteAndUnlockCertificate() {
+      let allComplete = true;
+      
+      for (let i = 0; i < 4; i++) {
+        if (!appState.completedModules.hiv[i]) {
+          allComplete = false;
+          break;
+        }
+      }
+      
+      if (allComplete) {
+        for (let i = 0; i < 4; i++) {
+          if (!appState.completedModules.syphilis[i]) {
+            allComplete = false;
+            break;
+          }
+        }
+      }
+      
+      appState.certificateUnlocked = allComplete;
+      
+      if (allComplete && !appState.certificateId) {
+        appState.certificateId = generateCertificateId();
+        appState.completionDate = new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        saveState();
+        showConfetti();
+      }
+      
+      updateProgressDisplay();
+      return allComplete;
+    }
+
     function openCertificateScreen() {
-      alert("Your certificate screen is in your original code. Paste it back into this fixed version if needed.");
+      const isUnlocked = checkAllCompleteAndUnlockCertificate();
+      
+      if (isUnlocked) {
+        document.getElementById('certificate-locked').classList.add('hidden');
+        document.getElementById('certificate-unlocked').classList.remove('hidden');
+        
+        if (appState.userName) {
+          document.getElementById('certificate-name').value = appState.userName;
+        }
+        
+        updateCertificatePreview();
+      } else {
+        document.getElementById('certificate-locked').classList.remove('hidden');
+        document.getElementById('certificate-unlocked').classList.add('hidden');
+        
+        const container = document.getElementById('remaining-modules');
+        container.innerHTML = '';
+        
+        for (let i = 0; i < 4; i++) {
+          if (!appState.completedModules.hiv[i]) {
+            const module = learningContent.hiv[i];
+            const item = document.createElement('div');
+            item.className = 'remaining-module';
+            item.innerHTML = `<span>🧬</span> ${module.title}`;
+            container.appendChild(item);
+          }
+        }
+        
+        for (let i = 0; i < 4; i++) {
+          if (!appState.completedModules.syphilis[i]) {
+            const module = learningContent.syphilis[i];
+            const item = document.createElement('div');
+            item.className = 'remaining-module';
+            item.innerHTML = `<span>🦠</span> ${module.title}`;
+            container.appendChild(item);
+          }
+        }
+      }
+      
       showScreen('certificate-screen');
+    }
+
+    function updateCertificatePreview() {
+      const name = document.getElementById('certificate-name').value.trim() || 'Your Name Here';
+      appState.userName = name;
+      saveState();
+      
+      document.getElementById('preview-name').textContent = name;
+      document.getElementById('preview-date').textContent = appState.completionDate || new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      document.getElementById('preview-id').textContent = appState.certificateId || generateCertificateId();
+    }
+
+    function downloadCertificate() {
+      const name = document.getElementById('certificate-name').value.trim();
+      if (!name) {
+        alert('Please enter your name for the certificate.');
+        return;
+      }
+      
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      canvas.width = 2480;
+      canvas.height = 3508;
+      
+      ctx.fillStyle = '#fdfcfb';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+      gradient.addColorStop(0, '#2a6ebb');
+      gradient.addColorStop(1, '#2bb5b5');
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 40;
+      ctx.strokeRect(100, 100, canvas.width - 200, canvas.height - 200);
+      
+      ctx.setLineDash([30, 20]);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'rgba(42, 110, 187, 0.3)';
+      ctx.strokeRect(140, 140, canvas.width - 280, canvas.height - 280);
+      ctx.setLineDash([]);
+      
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, 600, 200, 0, Math.PI * 2);
+      const sealGradient = ctx.createRadialGradient(
+        canvas.width / 2, 600, 50,
+        canvas.width / 2, 600, 200
+      );
+      sealGradient.addColorStop(0, '#2a6ebb');
+      sealGradient.addColorStop(1, '#9b59b6');
+      ctx.fillStyle = sealGradient;
+      ctx.fill();
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 120px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🏆', canvas.width / 2, 600);
+      
+      ctx.fillStyle = '#2a6ebb';
+      ctx.font = 'bold 140px "Times New Roman", serif';
+      ctx.fillText('Certificate of Completion', canvas.width / 2, 900);
+      
+      ctx.fillStyle = '#5d6d7e';
+      ctx.font = 'italic 60px "Times New Roman", serif';
+      ctx.fillText('This certifies that', canvas.width / 2, 1100);
+      
+      ctx.fillStyle = '#2c3e50';
+      ctx.font = 'bold 120px "Times New Roman", serif';
+      ctx.fillText(name, canvas.width / 2, 1300);
+      
+      ctx.fillStyle = '#2c3e50';
+      ctx.font = '50px "Times New Roman", serif';
+      const text = 'has successfully completed the STI SmartLearn Adult Education Portal modules on HIV and Syphilis, demonstrating comprehensive understanding of prevention, transmission, treatment, and public health principles.';
+      wrapText(ctx, text, canvas.width / 2, 1500, 1000, 60);
+      
+      const detailsY = 2000;
+      ctx.font = '40px "Times New Roman", serif';
+      
+      ctx.fillStyle = '#5d6d7e';
+      ctx.textAlign = 'left';
+      ctx.fillText('Date Issued:', 500, detailsY);
+      ctx.fillStyle = '#2a6ebb';
+      ctx.fillText(appState.completionDate || new Date().toLocaleDateString(), 500, detailsY + 70);
+      
+      ctx.fillStyle = '#5d6d7e';
+      ctx.textAlign = 'center';
+      ctx.fillText('Certificate ID:', canvas.width / 2, detailsY);
+      ctx.fillStyle = '#2a6ebb';
+      ctx.fillText(appState.certificateId || generateCertificateId(), canvas.width / 2, detailsY + 70);
+      
+      ctx.fillStyle = '#5d6d7e';
+      ctx.textAlign = 'right';
+      ctx.fillText('Completion Status:', canvas.width - 500, detailsY);
+      ctx.fillStyle = '#2a6ebb';
+      ctx.fillText('All Modules Completed', canvas.width - 500, detailsY + 70);
+      
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#2c3e50';
+      ctx.font = 'bold 50px "Times New Roman", serif';
+      ctx.fillText('Hanover HIV/STI/TB Treatment & Prevention Team', canvas.width / 2, 3200);
+      
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 2 - 300, 3300);
+      ctx.lineTo(canvas.width / 2 + 300, 3300);
+      ctx.strokeStyle = '#2c3e50';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      
+      ctx.fillStyle = 'rgba(93, 109, 126, 0.7)';
+      ctx.font = '30px Arial';
+      ctx.fillText('Conceptualized by Hanover HIV/STI/TB Treatment and Prevention Team', canvas.width / 2, 3450);
+      ctx.fillText('Designed by Glenroy Griffiths', canvas.width / 2, 3490);
+      
+      const link = document.createElement('a');
+      link.download = `STI-SmartLearn-Certificate-${name.replace(/\s+/g, '-')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      let line = '';
+      let testLine = '';
+      
+      for(let n = 0; n < words.length; n++) {
+        testLine = line + words[n] + ' ';
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && n > 0) {
+          context.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      context.fillText(line, x, y);
+    }
+
+    function generateCertificateId() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const random = Math.floor(100000 + Math.random() * 900000);
+      return `CERT-${year}-${random}`;
+    }
+
+    function showConfetti() {
+      const container = document.getElementById('confetti-container');
+      container.innerHTML = '';
+      container.style.display = 'block';
+      
+      const colors = ['#2a6ebb', '#2bb5b5', '#2bb57c', '#ffcc4d', '#e74c3c', '#9b59b6'];
+      
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        
+        container.appendChild(confetti);
+      }
+      
+      setTimeout(() => {
+        container.style.display = 'none';
+      }, 5000);
     }
 
     // ============================================================================
@@ -1023,13 +2556,43 @@
       } catch (_) {}
     }
 
+    function resetProgress() {
+      if (confirm('Are you sure you want to reset all progress? This will clear your completed modules and quiz scores.')) {
+        appState.completedModules = { hiv: [false, false, false, false], syphilis: [false, false, false, false] };
+        appState.quizScores = { hiv: [0, 0, 0, 0], syphilis: [0, 0, 0, 0] };
+        appState.certificateUnlocked = false;
+        appState.certificateId = '';
+        appState.completionDate = '';
+        appState.userName = '';
+        
+        saveState();
+        loadHome();
+        alert('Progress has been reset.');
+      }
+    }
+
     // ============================================================================
     // INIT
     // ============================================================================
     function init() {
       loadState();
       loadHome();
+      
+      const footer = document.querySelector('.footer');
+      const resetBtn = document.createElement('button');
+      resetBtn.textContent = 'Reset Progress';
+      resetBtn.style.marginLeft = '20px';
+      resetBtn.style.padding = '5px 15px';
+      resetBtn.style.background = 'var(--primary-red)';
+      resetBtn.style.color = 'white';
+      resetBtn.style.border = 'none';
+      resetBtn.style.borderRadius = '5px';
+      resetBtn.style.cursor = 'pointer';
+      resetBtn.style.fontSize = '0.8rem';
+      resetBtn.onclick = resetProgress;
+      footer.appendChild(resetBtn);
     }
+    
     window.onload = init;
   </script>
 </body>
